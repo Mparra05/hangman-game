@@ -17,9 +17,10 @@ public class SecretWordController {
 
     @FXML
     public void onHandleKeyTextFieldSecretWord(KeyEvent key) {
-        /*char letter = key.getCharacter().charAt(0);
-        if (Character.isLetter(letter)) key.consume();
-        else System.out.println("No Letra");*/
+        /*char keyTyped = key.getCharacter().charAt(0);
+        if (Character.isLowerCase(keyTyped) && Character.isLetter(keyTyped)) {
+
+        }*/
     }
 
     @FXML
