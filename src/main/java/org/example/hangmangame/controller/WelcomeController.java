@@ -10,7 +10,7 @@ import java.io.IOException;
 public class WelcomeController {
 
     @FXML
-    public void onHanldeButtonPlay(ActionEvent event) throws IOException {
+    public void onHandleButtonPlay(ActionEvent event) throws IOException {
         SecretWordStage.getInstance();
         WelcomeStage.deleteInstance();
     }

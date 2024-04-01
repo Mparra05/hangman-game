@@ -11,8 +11,6 @@ import java.io.IOException;
 
 public class SecretWordStage extends Stage {
 
-    private SecretWordController secretWordController;
-
     public SecretWordStage() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/hangmangame/secret-word-view.fxml"));
         Parent root = loader.load();
@@ -22,10 +20,6 @@ public class SecretWordStage extends Stage {
         setResizable(false);
         setScene(scene);
         show();
-    }
-
-    public SecretWordController getSecretWordController() {
-        return secretWordController;
     }
 
     private static class SecretWordStageHolder {
