@@ -7,6 +7,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.QuadCurve;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import org.example.hangmangame.view.alert.AlertBox;
@@ -17,9 +20,26 @@ public class GameController {
 
     @FXML
     private AnchorPane gameAnchorPane;
-
     @FXML
-    private TextField letterTextField;
+    private TextField validateLetterTextField;
+    @FXML
+    private Circle head;
+    @FXML
+    private Circle eye1;
+    @FXML
+    private Circle eye2;
+    @FXML
+    private QuadCurve mouth;
+    @FXML
+    private Line body;
+    @FXML
+    private Line arm1;
+    @FXML
+    private Line arm2;
+    @FXML
+    private Line foot1;
+    @FXML
+    private Line foot2;
 
     private GridPane secretWordSpaces;
     private String secretWord;
@@ -28,26 +48,27 @@ public class GameController {
     public void onHandleButtonValidate(ActionEvent event) throws IOException {
         char letter;
 
-        if (letterTextField.getText().length() == 1) {
-            letter = letterTextField.getText().charAt(0);
+        if (validateLetterTextField.getText().length() == 1) {
+            letter = validateLetterTextField.getText().charAt(0);
             if (Character.isLetter(letter)) {
                 if (validateLetter(letter)) {
                     showLetter(findPositionLetter(letter));
-                    letterTextField.setText(null);
+                    validateLetterTextField.setText(null);
                 }
                 else {
                     new AlertBox().showAlertMessage("Mensaje de Error", "Letra incorrecta", "La letra no está en la palabra secreta", Alert.AlertType.ERROR);
-                    letterTextField.setText(null);
+                    validateLetterTextField.setText(null);
+                    head.setVisible(true);
                 }
             }
             else {
                 new AlertBox().showAlertMessage("Mensaje de Error", "Letra inválida", "El caracter ingresado no es una letra del abecedario", Alert.AlertType.ERROR);
-                letterTextField.setText(null);
+                validateLetterTextField.setText(null);
             }
         }
         else {
             new AlertBox().showAlertMessage("Mensaje de Error", "Entrada inválida", "Debe ingresar solo una letra", Alert.AlertType.ERROR);
-            letterTextField.setText(null);
+            validateLetterTextField.setText(null);
         }
 
     }
@@ -84,7 +105,7 @@ public class GameController {
         this.secretWord = secretWord;
 
         secretWordSpaces = new GridPane();
-        secretWordSpaces.setLayoutX(50);
+        secretWordSpaces.setLayoutX(30);
         secretWordSpaces.setLayoutY(130);
         secretWordSpaces.setHgap(6);
 

@@ -17,10 +17,7 @@ public class SecretWordController {
 
     @FXML
     public void onHandleKeyTextFieldSecretWord(KeyEvent key) {
-        /*char keyTyped = key.getCharacter().charAt(0);
-        if (Character.isLowerCase(keyTyped) && Character.isLetter(keyTyped)) {
 
-        }*/
     }
 
     @FXML
