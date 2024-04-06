@@ -52,7 +52,7 @@ public class GameController {
     @FXML
     private Line foot2;
 
-    private GridPane secretWordSpaces, letterUsed;
+    private GridPane letterUsed;
     private SecretWord secretWord;
     private int attempts = 6, helps = 3;
 
@@ -90,7 +90,7 @@ public class GameController {
     }
 
     @FXML
-    public void onHandleButtonHelp(ActionEvent actionEvent) {
+    public void onHandleButtonHelp(ActionEvent actionEvent) throws IOException{
         if (helps > 0) {
             ArrayList<Byte> lettersNotFound = new ArrayList<Byte>();
             ArrayList<Object> letterHelp = new ArrayList<Object>();
@@ -104,6 +104,7 @@ public class GameController {
             int randomPosition = (int) (Math.random() * lettersNotFound.size());
             letterHelp.add(lettersNotFound.get(randomPosition));
             showLetter(letterHelp);
+            if (validateSecretWordFound()) winGame();
 
             this.helps--;
         }
@@ -129,11 +130,6 @@ public class GameController {
         letterUsed.setHgap(5);
         gameAnchorPane.getChildren().addAll(letterUsed);
 
-        /*secretWordSpaces = new GridPane();
-        secretWordSpaces.setLayoutX(30);
-        secretWordSpaces.setLayoutY(150);
-        secretWordSpaces.setHgap(6);*/
-
         for (byte i = 0; i < getSecretWord().getSecretWordSpaces().size(); i++) {
             TextField letterTextField = new TextField();
             letterTextField.setPrefWidth(40);
@@ -148,7 +144,6 @@ public class GameController {
             if (i <= 9) gridPaneSecretWordSpaces.add(letterTextField, i, 0);
             else gridPaneSecretWordSpaces.add(letterTextField, i-10, 1);
         }
-        //gameAnchorPane.getChildren().addAll(secretWordSpaces);
     }
 
     public SecretWord getSecretWord () {
