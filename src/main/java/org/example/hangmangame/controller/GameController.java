@@ -30,6 +30,8 @@ public class GameController {
     @FXML
     private Label labelAttempts;
     @FXML
+    private GridPane gridPaneSecretWordSpaces;
+    @FXML
     private TextField validateLetterTextField;
     @FXML
     private Circle head;
@@ -52,7 +54,7 @@ public class GameController {
 
     private GridPane secretWordSpaces, letterUsed;
     private SecretWord secretWord;
-    private int attempts = 6;
+    private int attempts = 6, helps = 3;
 
     @FXML
     public void onHandleButtonValidate(ActionEvent actionEvent) throws IOException {
@@ -89,7 +91,23 @@ public class GameController {
 
     @FXML
     public void onHandleButtonHelp(ActionEvent actionEvent) {
+        if (helps > 0) {
+            ArrayList<Byte> lettersNotFound = new ArrayList<Byte>();
+            ArrayList<Object> letterHelp = new ArrayList<Object>();
 
+            for (byte i = 0; i < this.secretWord.getSecretWord().length(); i++) {
+                if (gridPaneSecretWordSpaces.getChildren().get(i).getStyle().equals("-fx-text-fill: null")) {
+                    lettersNotFound.add(i);
+                }
+            }
+
+            int randomPosition = (int) (Math.random() * lettersNotFound.size()) + 1;
+            letterHelp.add(randomPosition);
+            showLetter(letterHelp);
+
+            this.helps--;
+        }
+        else new AlertBox().showAlertMessage("Sin ayudas", "Se han agotado tus ayudas.", "Ya has usado tus 3 ayudas en el juego.", Alert.AlertType.INFORMATION);
     }
 
     @FXML
@@ -111,10 +129,10 @@ public class GameController {
         letterUsed.setHgap(5);
         gameAnchorPane.getChildren().addAll(letterUsed);
 
-        secretWordSpaces = new GridPane();
+        /*secretWordSpaces = new GridPane();
         secretWordSpaces.setLayoutX(30);
         secretWordSpaces.setLayoutY(150);
-        secretWordSpaces.setHgap(6);
+        secretWordSpaces.setHgap(6);*/
 
         for (byte i = 0; i < getSecretWord().getSecretWordSpaces().size(); i++) {
             TextField letterTextField = new TextField();
@@ -127,9 +145,10 @@ public class GameController {
             letterTextField.setAlignment(Pos.CENTER);
             letterTextField.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 0, 2, 0))));
             letterTextField.setEditable(false);
-            secretWordSpaces.add(letterTextField, i, 0);
+            if (i <= 9) gridPaneSecretWordSpaces.add(letterTextField, i, 0);
+            else gridPaneSecretWordSpaces.add(letterTextField, i-10, 1);
         }
-        gameAnchorPane.getChildren().addAll(secretWordSpaces);
+        //gameAnchorPane.getChildren().addAll(secretWordSpaces);
     }
 
     public SecretWord getSecretWord () {
@@ -146,8 +165,8 @@ public class GameController {
         return validatedLetter;
     }
 
-    public ArrayList<Byte> findPositionLetter(String letter) {
-        ArrayList<Byte> positionsLetter = new ArrayList<Byte>();
+    public ArrayList<Object> findPositionLetter(String letter) {
+        ArrayList<Object> positionsLetter = new ArrayList<Object>();
 
         for (byte i = 0; i < this.secretWord.getSecretWord().length(); i++) {
             if (this.secretWord.getSecretWordSpaces().get(i).equals(letter)) positionsLetter.add(i);
@@ -156,9 +175,9 @@ public class GameController {
         return positionsLetter;
     }
 
-    public void showLetter(ArrayList<Byte> positionsLetter) {
-        for (Byte index : positionsLetter) {
-            secretWordSpaces.getChildren().get(index).setStyle("-fx-text-fill: black");
+    public void showLetter(ArrayList<Object> positionsLetter) {
+        for (Object index : positionsLetter) {
+            gridPaneSecretWordSpaces.getChildren().get(index.hashCode()).setStyle("-fx-text-fill: black");
         }
     }
 
@@ -211,8 +230,8 @@ public class GameController {
 
     public boolean validateSecretWordFound() {
         boolean secretWordFound = false;
-        for (byte i = 0; i < secretWordSpaces.getColumnCount(); i++) {
-            if (!secretWordSpaces.getChildren().get(i).getStyle().equals("-fx-text-fill: black")) {
+        for (byte i = 0; i < this.secretWord.getSecretWord().length(); i++) {
+            if (!gridPaneSecretWordSpaces.getChildren().get(i).getStyle().equals("-fx-text-fill: black")) {
                 secretWordFound = false;
                 break;
             }
