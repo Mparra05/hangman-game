@@ -101,8 +101,8 @@ public class GameController {
                 }
             }
 
-            int randomPosition = (int) (Math.random() * lettersNotFound.size()) + 1;
-            letterHelp.add(randomPosition);
+            int randomPosition = (int) (Math.random() * lettersNotFound.size());
+            letterHelp.add(lettersNotFound.get(randomPosition));
             showLetter(letterHelp);
 
             this.helps--;
